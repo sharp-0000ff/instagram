@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block header %}
+    <a href="{% url "instagram_profile:registration" %}">Registration</a>
+{% endblock %}
+
+{% block content %}
+    <h3>login</h3>
+    {% if form.errors %}
+        Bad password
+    {% endif %}
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

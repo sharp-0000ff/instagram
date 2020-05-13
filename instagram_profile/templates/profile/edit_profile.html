@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit profile{% endblock %}
+
+{% block content %}
+    <p><a href="{%  url 'instagram_profile:view_profile' %}">Back</a></p>
+    <p><a href="{%  url 'instagram_profile:password_change' %}">Reset password</a></p>
+    <p>Update your data:</p>
+    <form action="." method="post" enctype="multipart/form-data">
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Save changes">
+    </form>
+{% endblock %}
