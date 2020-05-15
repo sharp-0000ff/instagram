@@ -13,9 +13,10 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password_change/', views.password_change, name='password_change'),
-    path('<int:pk>/', views.detail_photographs, name='detail_photography'),
+    path('<int:pk>/', views.detail_photography, name='detail_photography'),
     path('create/', views.create_photography_form,
          name='create_photography_form'),
+    path('<int:pk>', views.delete_photography, name='delete_photography')
 
 ]
 if settings.DEBUG:

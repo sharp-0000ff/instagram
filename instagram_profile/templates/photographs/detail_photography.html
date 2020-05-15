@@ -3,12 +3,15 @@
 {% block title %} {{ photography.author }} {% endblock %}
 
 {% block content %}
-    <h2>{{ photography.author }}</h2>
+    <div class="row">
+    <div class="col">
     {% thumbnail photography.photo '500x500' as image %}
        <p><img src="{{ image.url}}" width="{{ image.width }}" height="{{ image.height }}" alt="photo"></p>
     {% endthumbnail %}
     <p>{{ photography.description }}</p>
     <p>Photography published {{ photography.publish }}</p>
+    </div>
+    <div class="col">
     <p>
         {% with photography.comment.count as total_comments %}
             <h3> {{ total_comments }} comment{{ total_comments|pluralize }}</h3>
@@ -17,10 +20,19 @@
             {{ comment.body }}
             <p>Comment #{{ forloop.counter }} by {{ comment.name }} {{ comment.publish }}</p>
         {% endfor %}
-        <form action="." method="post">
+        <form action="{% url 'instagram_profile:detail_photography' photography.pk %}" method="post">
             {{ comment_form.as_p }}
             {% csrf_token %}
             <input type="submit" value="Add comment">
+        </form>
+    </p>
+    </div>
+    </div>
+    <p>
+        <form action="{% url 'instagram_profile:delete_photography' photography.pk %}" method="post">
+            {{ delete_photo.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Delete photography">
         </form>
     </p>
 {% endblock %}

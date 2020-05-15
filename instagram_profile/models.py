@@ -29,16 +29,6 @@ class Photography(models.Model):
         return reverse('instagram_profile:detail_photography',
                        args=[self.pk])
 
-    def save(self):
-        super().save()
-        img = Image.open(self.photo.path)
-        if img.height > 1000 or img.wight > 1000:
-            output_size = (1000, 1000)
-            img.thumbnail(output_size, Image.ANTIALIAS)
-            img.save(self.photo.path)
-        else:
-            print('image cant resize')
-
 
 class Comment(models.Model):
     photography = models.ForeignKey(Photography,

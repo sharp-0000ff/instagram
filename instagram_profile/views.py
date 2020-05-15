@@ -6,6 +6,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import DeleteView
 
 # Create your views here.
 
@@ -29,9 +30,7 @@ def edit_profile(request):
                                              files=request.FILES)
         user_form.save()
         profile_form.save()
-        return render(request,
-                      'profile/profile.html',
-                      {'user': request.user})
+        return redirect('instagram_profile:view_profile')
     else:
         user_form = forms.UserEditForm(instance=request.user)
         profile_form = forms.ProfileEditForm(instance=request.user.profile)
@@ -78,9 +77,8 @@ def password_change(request):
 
 
 @login_required()
-def detail_photographs(request, pk):
-    photography = get_object_or_404(models.Photography,
-                                    pk=pk)
+def detail_photography(request, pk):
+    photography = get_object_or_404(models.Photography, pk=pk)
     if request.method == 'POST':
         comment_form = forms.CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -109,5 +107,16 @@ def create_photography_form(request):
     else:
         photography_form = forms.PhotographyForm()
     return render(request,
-                  "photographs/create_photography.html",
+                  'photographs/create_photography.html',
                   {'photography_form': photography_form})
+
+
+@login_required()
+def delete_photography(request, pk):
+    delete_photo = models.Photography.objects.get(pk=pk)
+    if request.method == 'POST':
+        delete_photo.delete()
+        return redirect('instagram_profile:view_profile')
+    return render(request,
+                  'photographs/detail_photography.html',
+                  {'delete_photo': delete_photo})

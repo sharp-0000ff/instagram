@@ -1,31 +1,61 @@
 {% extends "base.html" %}
 {% load thumbnail %}
-{% block title %}Person profile{% endblock %}
+
+<title>{% block title %}Profile: {{ user.username }}{% endblock %}</title>
 
 {% block header %}
+    <div class="row">
     {% if request.user.is_authenticated %}
-        <p><a href="{% url "instagram_profile:edit_profile" %}">Edit profile</a></p>
-        <p><a href="{% url 'instagram_profile:logout' %}">Logout</a></p>
-        <p>name: {{ user.first_name }} {{ user.last_name }}</p>
-        {% thumbnail user.profile.photo '100x100' as image %}
-            <p><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="photo"></p>
-        {% endthumbnail %}
+        <div class="col-sm-2">
+            <div class="card border-white" style="width: 10rem; height: 12rem">
+                <div class="card-body">
+                    {% thumbnail user.profile.photo '150x150' as image %}
+                        <p><img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}" alt="photo"></p>
+                    {% endthumbnail %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <p class="mt-5">username: {{ user.username }}</p>
+            <p>full name: {{ user.first_name }} {{ user.last_name }}</p>
+        </div>
+        <div class="col-sm-2">
+            <p>
+                <a href="{% url "instagram_profile:edit_profile" %}">
+                    <button type="button" class="btn btn-outline-dark btn-sm btn-block mt-3">Edit profile</button>
+                </a>
+            </p>
+            <p>
+                <a href="{% url 'instagram_profile:logout' %}">
+                    <button type="button" class="btn btn-outline-dark btn-sm btn-block">Logout</button>
+                </a>
+            </p>
+        </div>
+
     {% else %}
         <a href="{% url 'instagram_profile:login' %}">Login</a>
     {% endif %}
-    <br>
+    </div>
 {% endblock %}
 {% block content %}
     {% if request.user.is_authenticated %}
-    {% for ph in all_photographs %}
-        <p>
-            <a href="{{ ph.get_absolute_url }}">
-                {% thumbnail ph.photo '300x300' as image %}
-                    <img src="{{ image.url}}" width="{{ image.width }}" height="{{ image.height }}" alt="photo">
-                {% endthumbnail %}
+        <div class="row; mx-auto mt-1" style="width: 90px; ">
+            <a href="{% url "instagram_profile:create_photography_form" %}" >
+                <button type="button" class="btn btn-outline-dark btn-sm">Add photo</button>
             </a>
-        </p>
-    {% endfor %}
-    <a href="{% url "instagram_profile:create_photography_form" %}"> Add photography</a>
+        </div>
+        <div class="row">
+            {% for ph in all_photographs %}
+                <div class="card" style="width: 15rem">
+                    <div class="card-body ">
+                        <a href="{{ ph.get_absolute_url }}">
+                        {% thumbnail ph.photo '195x260' as image %}
+                            <img src="{{ image.url}}" width="{{ image.width }}" height="{{ image.height }}" alt="photo">
+                        {% endthumbnail %}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
