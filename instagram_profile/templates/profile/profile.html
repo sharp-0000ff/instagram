@@ -5,8 +5,10 @@
 
 {% block header %}
     <div class="row">
+    <table>
     {% if request.user.is_authenticated %}
-        <div class="col-sm-2">
+
+        <div class="col-sm-3">
             <div class="card border-white" style="width: 10rem; height: 12rem">
                 <div class="card-body">
                     {% thumbnail user.profile.photo '150x150' as image %}
@@ -15,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
             <p class="mt-5">username: {{ user.username }}</p>
             <p>full name: {{ user.first_name }} {{ user.last_name }}</p>
         </div>
@@ -35,18 +37,19 @@
     {% else %}
         <a href="{% url 'instagram_profile:login' %}">Login</a>
     {% endif %}
+    </table>
     </div>
 {% endblock %}
 {% block content %}
     {% if request.user.is_authenticated %}
-        <div class="row; mx-auto mt-1" style="width: 90px; ">
+        <div class="row; mx-auto" style="width: 90px; ">
             <a href="{% url "instagram_profile:create_photography_form" %}" >
                 <button type="button" class="btn btn-outline-dark btn-sm">Add photo</button>
             </a>
         </div>
         <div class="row">
             {% for ph in all_photographs %}
-                <div class="card" style="width: 15rem">
+                <div class="card" style="width: 15.06rem">
                     <div class="card-body ">
                         <a href="{{ ph.get_absolute_url }}">
                         {% thumbnail ph.photo '195x260' as image %}

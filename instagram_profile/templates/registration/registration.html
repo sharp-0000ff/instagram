@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block title %}create user{% endblock %}
 
+{% block header %}
+    <a href="{% url "instagram_profile:login" %}">Login</a>
+{% endblock %}
+
 {% block content %}
     <p>Fill your data:</p>
     <form action="." method="post">
         {{ user_form.as_p }}
         {% csrf_token %}
-        <input type="submit" value="Registration">
+        <input class="btn btn-outline-dark btn-sm" type="submit" value="Registration">
     </form>
 {% endblock %}

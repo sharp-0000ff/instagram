@@ -3,6 +3,7 @@
 {% block title %} {{ photography.author }} {% endblock %}
 
 {% block content %}
+    <a href="{% url "instagram_profile:view_profile" %}">Back</a>
     <div class="row">
     <div class="col">
     {% thumbnail photography.photo '500x500' as image %}
@@ -23,7 +24,7 @@
         <form action="{% url 'instagram_profile:detail_photography' photography.pk %}" method="post">
             {{ comment_form.as_p }}
             {% csrf_token %}
-            <input type="submit" value="Add comment">
+            <input class="btn btn-outline-dark btn-sm" type="submit" value="Add comment">
         </form>
     </p>
     </div>
@@ -32,7 +33,7 @@
         <form action="{% url 'instagram_profile:delete_photography' photography.pk %}" method="post">
             {{ delete_photo.as_p }}
             {% csrf_token %}
-            <input type="submit" value="Delete photography">
+            <input class="btn btn-outline-dark btn-sm" type="submit" value="Delete photography">
         </form>
     </p>
 {% endblock %}

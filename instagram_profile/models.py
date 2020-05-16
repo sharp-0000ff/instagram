@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
-from PIL import Image
 
 # Create your models here.
 
@@ -20,8 +19,7 @@ class Photography(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              related_name='user_photo')
-    photo = models.ImageField(upload_to='user/%Y/%m/%d/',
-                              blank=True,)
+    photo = models.ImageField(upload_to='user/%Y/%m/%d/',)
     description = models.TextField(max_length=128)
     publish = models.DateField(default=timezone.now)
 

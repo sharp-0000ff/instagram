@@ -6,7 +6,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import DeleteView
 
 # Create your views here.
 
@@ -60,7 +59,7 @@ def registration(request):
 
 
 @login_required()
-def password_change(request):
+def password_change_form(request):
     if request.method == 'POST':
         password_change = PasswordChangeForm(request.user, request.POST)
         if password_change.is_valid():
@@ -69,6 +68,8 @@ def password_change(request):
             messages.success(request,
                              'Your password was successfully updated!')
             return redirect('instagram_profile:password_change')
+        else:
+            messages.success(request, 'Your password is not changed')
     else:
         password_change = PasswordChangeForm(request.user)
     return render(request,
